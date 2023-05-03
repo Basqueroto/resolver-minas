@@ -1,7 +1,12 @@
 import pyautogui as p
 import time
-import mouse
 
-while True:
+
+y = 0
+
+while y <= 10:
     print(p.position())
-    time.sleep(1)
+    time.sleep(0.5)
+
+    y+=1
+p.alert("pegamos o local")    
