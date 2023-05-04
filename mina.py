@@ -20,6 +20,11 @@ compY = 540
 numColumns = 10
 numRows = 8
 
+quadX = 67
+quadY = 67
+quadStartX = 0
+quadStartY = 0
+
 def foto():
     p.screenshot("boardInit.png", region=(startX, startY, compX, compY))
 
@@ -31,23 +36,37 @@ def compare ():
 
     if g < 200:
         if r > 210 and b > 130:
-            return "fundo vermelho"
+            print ("fundo vermelho")
         elif  g > 170 and r < 200:
-            return "verde"
+            print ("verde")
+            return 2
         elif g > 110:
-            return "azul"
+            print("azul")
+            return 1
         elif g > 60:
-            return "red"
+            print("red")
+            return 3
     else: 
-        return "fundo verde"    
+        print("fundo verde")    
 
 
-# def encontrar ():        
+def encontrar (indice):
+    vazio = 0
+    bombas = 0        
+    if indice > 0 or indice < "":
+        pX = quadStartX
+        pY = quadStartY
+        b = p.screenshot("quad.png", region=(quadStartX - quadX, quadStartY, quadX, quadY))
+        (bF, gF, rF) = b[5, 5]
+        if rF > 210 and bF > 130:
+            print("fundo achado")
+        
+
+
+
 
 
 def percorrer (): 
-    quadX = 67
-    quadY = 67
     quadStartX = startX
     quadStartY = startY
     contador = 0   
@@ -59,7 +78,6 @@ def percorrer ():
             print(compare())
             print(contador)
             quadStartX += quadX
-
         quadStartX = startX
         quadStartY += quadY 
     p.alert("o loop terminou") 
