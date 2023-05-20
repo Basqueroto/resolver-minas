@@ -55,7 +55,7 @@ def encontrar (indice,x,y):
     #verde = 0 bandeira = 1 aberto = 2
     baixo = [0,0,0,0,0,0,0,0]
     vazio = 0
-    bombas = int(indice)        
+    bombas = indice     
     print(indice, "a função foi iniciada")
     for i in range(0, len(position)):
         b = p.screenshot("redor.png", region=(position[i][0], position[i][1], quadX, quadY))
@@ -63,21 +63,21 @@ def encontrar (indice,x,y):
         b = cv.imread("redor.png")
         (bF, gF, rF) = b[5, 5]
         (b, g, r) = b[34, 34]
-        print ("Vermelho: %d, Verde: %d, Azul: %d" % (rF, gF, bF))
+        # print ("Vermelho: %d, Verde: %d, Azul: %d" % (rF, gF, bF))
         if rF > 210:
             print("fundo vermelho achado")
             vazio += 1
             baixo[i] = 2
-        elif gF > 199 and g < 90 and r > 190:
+        elif r > 190:
             print("bandeira achada")
             vazio += 1
-            bombas = bombas -  1
+            bombas -= 1
             baixo[i] = 1
         
-    print(vazio)
-    print(bombas)
+    print('estão vazioes esses espaços ',vazio)
+    print('bombas restantes', bombas)
     print(baixo)
-    if bombas <= 0: 
+    if bombas == 0: 
         print("-------------------achou um lugar para clicar--------------------------")
         for i in range(0, len(baixo)):
             if baixo[i] == 0:
@@ -99,7 +99,6 @@ def percorrer ():
             image = p.screenshot("quad.png", region=(quadStartX, quadStartY, quadX, quadY))
             contador+=1
             image.save(r'C:\Users\Aluno\Desktop\resolver-minas\img\image{}.png'.format(contador))
-            print(compare())
             print(contador)
             if (compare() != 6):
                 encontrar(compare(),quadStartX, quadStartY)  
@@ -149,8 +148,10 @@ foto()
 
 time.sleep(2)
 q = 0
-while True:
-    q = q + 1
-    percorrer()
-    if (q > 50):
-        break
+# while True:
+#     q = q + 1
+#     percorrer()
+#     if (q > 1):
+#         break
+# time.sleep(2)
+percorrer()
