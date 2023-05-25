@@ -73,7 +73,24 @@ def encontrar (indice,x,y):
             vazio += 1
             bombas -= 1
             baixo[i] = 1
-        
+
+    if x + quadX > compX:
+        baixo[3] = 2
+        baixo[4] = 2
+        baixo[5] = 2
+    if x - quadX < startX:
+        baixo[0] = 2
+        baixo[1] = 2
+        baixo[7] = 2
+    if y + quadY > compY:
+        baixo[5] = 2
+        baixo[6] = 2
+        baixo[7] = 2
+    if y - quadY < startY:
+        baixo[1] = 2
+        baixo[2] = 2
+        baixo[3] = 2
+                   
     print('estão vazioes esses espaços ',vazio)
     print('bombas restantes', bombas)
     print(baixo)
