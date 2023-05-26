@@ -92,7 +92,7 @@ def encontrar (indice,x,y):
             bombas -= 1
             baixo[i] = 1
 
-    if x + quadX > fimX:
+    if x + quadX + 3 >= fimX:
         if baixo[3] != 2 or baixo[3] != 2:
             vazio += 1
         if baixo[4] != 2 or baixo[4] != 2:
@@ -102,7 +102,7 @@ def encontrar (indice,x,y):
         baixo[3] = 2
         baixo[4] = 2
         baixo[5] = 2
-    if x - quadX < fimX:
+    if x - quadX + 3 <= fimX:
         if baixo[0] != 2 or baixo[0] != 2:
             vazio += 1
         if baixo[1] != 2 or baixo[1] != 2:
@@ -112,7 +112,7 @@ def encontrar (indice,x,y):
         baixo[0] = 2
         baixo[1] = 2
         baixo[7] = 2
-    if y + quadY > fimY:
+    if y + quadY + 3 >= fimY:
         if baixo[5] != 2 or baixo[5] != 2:
             vazio += 1
         if baixo[6] != 2 or baixo[6] != 2:
@@ -122,7 +122,7 @@ def encontrar (indice,x,y):
         baixo[5] = 2
         baixo[6] = 2
         baixo[7] = 2
-    if y - quadY < fimY:
+    if y - quadY + 3 <= fimY:
         if baixo[1] != 2 or baixo[1] != 2:
             vazio += 1
         if baixo[2] != 2 or baixo[2] != 2:
