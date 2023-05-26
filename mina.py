@@ -5,6 +5,8 @@ import cv2 as cv
 
 startX = 623 #google 
 startY = 313
+fimX = 1297
+fimY = 853
 
 # startX = 415 #opera
 # startY = 361
@@ -74,22 +76,26 @@ def encontrar (indice,x,y):
             bombas -= 1
             baixo[i] = 1
 
-    if x + quadX > compX:
+    if x + quadX > fimX:
         baixo[3] = 2
         baixo[4] = 2
         baixo[5] = 2
-    if x - quadX < startX:
+        vazio += 3
+    if x - quadX < fimX:
         baixo[0] = 2
         baixo[1] = 2
         baixo[7] = 2
-    if y + quadY > compY:
+        vazio += 3
+    if y + quadY > fimY:
         baixo[5] = 2
         baixo[6] = 2
         baixo[7] = 2
-    if y - quadY < startY:
+        vazio += 3
+    if y - quadY < fimY:
         baixo[1] = 2
         baixo[2] = 2
         baixo[3] = 2
+        vazio += 3
                    
     print('estão vazioes esses espaços ',vazio)
     print('bombas restantes', bombas)
@@ -117,8 +123,8 @@ def percorrer ():
             contador+=1
             image.save(r'C:\Users\Aluno\Desktop\resolver-minas\img\image{}.png'.format(contador))
             print(contador)
-            if (compare() != 6):
-                encontrar(compare(),quadStartX, quadStartY)  
+            # if (compare() != 6):
+            #     encontrar(compare(),quadStartX, quadStartY)  
             quadStartX += quadX
         quadStartX = startX
         quadStartY += quadY 
