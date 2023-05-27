@@ -39,18 +39,20 @@ def color (image):
             medV += g
             medVer += r
             cont += 1
+    (bf, gf, rf) = img[50, 50]        
     medB = medB / cont
     medV = medV / cont
     medVer = medVer / cont
     # print(medB, medV, medVer)
-    return medB, medV, medVer
+    return medB, medV, medVer, gf
 
 def foto():
     p.screenshot("boardInit.png", region=(startX, startY, compX, compY))
 
 def compare ():
-    (b,g,r) = color("quad.png")
-    if g < 205:
+    (b,g,r,gf) = color("quad.png")
+    print(gf)
+    if g < 205 and gf < 205:
         if b > 140 and g > 170 and r > 210:
             print ("fundo vermelho")
             return 6
@@ -80,9 +82,9 @@ def encontrar (indice,x,y):
         b = p.screenshot("redor.png", region=(position[i][0], position[i][1], quadX, quadY))
         b.save(r'C:\Users\Aluno\Desktop\resolver-minas\imgachar\image{}.png'.format(i))
         b = cv.imread("redor.png")
-        (bF, gF, rF) = b[10, 10]
-        (b,g,r) = color("redor.png")
-        if rF > 210:
+        (bg, gg, rF) = b[10, 10]
+        (b,g,r, gF) = color("redor.png")
+        if rF > 210: #aqui está p problem
             print("fundo vermelho achado")
             vazio += 1
             baixo[i] = 2
@@ -92,7 +94,7 @@ def encontrar (indice,x,y):
             bombas -= 1
             baixo[i] = 1
 
-    if x + quadX + 3 >= fimX:
+    if x + quadX + 10 >= fimX:
         if baixo[3] != 2 or baixo[3] != 2:
             vazio += 1
         if baixo[4] != 2 or baixo[4] != 2:
@@ -102,7 +104,7 @@ def encontrar (indice,x,y):
         baixo[3] = 2
         baixo[4] = 2
         baixo[5] = 2
-    if x - quadX + 3 <= fimX:
+    if x - quadX + 10 <= fimX:
         if baixo[0] != 2 or baixo[0] != 2:
             vazio += 1
         if baixo[1] != 2 or baixo[1] != 2:
@@ -112,7 +114,7 @@ def encontrar (indice,x,y):
         baixo[0] = 2
         baixo[1] = 2
         baixo[7] = 2
-    if y + quadY + 3 >= fimY:
+    if y + quadY + 10 >= fimY:
         if baixo[5] != 2 or baixo[5] != 2:
             vazio += 1
         if baixo[6] != 2 or baixo[6] != 2:
@@ -122,7 +124,7 @@ def encontrar (indice,x,y):
         baixo[5] = 2
         baixo[6] = 2
         baixo[7] = 2
-    if y - quadY + 3 <= fimY:
+    if y - quadY + 10 <= fimY:
         if baixo[1] != 2 or baixo[1] != 2:
             vazio += 1
         if baixo[2] != 2 or baixo[2] != 2:
@@ -160,8 +162,8 @@ def percorrer ():
             image.save(r'C:\Users\Aluno\Desktop\resolver-minas\img\image{}.png'.format(contador))
             print(contador)
             t = compare()
-            if (t != 6):
-                encontrar(t,quadStartX, quadStartY)  
+            # if (t != 6):
+            #     encontrar(t,quadStartX, quadStartY)  
             quadStartX += quadX
         quadStartX = startX
         quadStartY += quadY 
@@ -192,7 +194,7 @@ p.moveTo(595,240) #google
 p.click()
 p.moveTo(595,265)
 p.click()
-p.moveTo(645,335)
+p.moveTo(947,568)
 p.click()
 
 # p.moveTo(437,298) #opera
@@ -207,12 +209,13 @@ foto()
 p.PAUSE = 0.2
 
 time.sleep(2)
-q = 0
-while True:
-    q = q + 1
-    percorrer()
-    if (q > 10):
-        break
-p.alert("o loop terminou")     
+# q = 0
+# while True:
+#     q = q + 1
+#     percorrer()
+#     if (q > 10):
+#         break
+# p.alert("o loop terminou")     
 time.sleep(2)
-# percorrer()
+percorrer()
+p.alert("o loop terminou")  
