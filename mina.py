@@ -3,26 +3,29 @@ import time
 import cv2 as cv
 
 
-startX = 623 #google 
-startY = 313
-fimX = 1297
-fimY = 853
+# startX = 623 #google 
+# startY = 313
+# fimX = 1297
+# fimY = 853
 
-# startX = 415 #opera
-# startY = 361
+startX = 415 #opera
+startY = 361
 
-# compX = 448 #opera
-# compY = 361
+compX = 448 #opera
+compY = 361
 
-compX = 674 #google
-compY = 540
+fimX = 863 #opera
+fimY = 722
+
+# compX = 674 #google
+# compY = 540
 
 # dimenções do campo
 numColumns = 10
 numRows = 8
 
-quadX = 67
-quadY = 67
+quadX = 45
+quadY = 45
 quadStartX = 0
 quadStartY = 0
 
@@ -32,14 +35,14 @@ def color (image):
     medVer = 0
     cont = 0
     img = cv.imread(image)
-    for i in range(21, 57):
-        for j in range(23, 45):
+    for i in range(7, 34): #lines
+        for j in range(15, 30): #colun
             (b, g, r) = img[i, j]        
             medB += b
             medV += g
             medVer += r
             cont += 1
-    (bf, gf, rf) = img[50, 50]        
+    (bf, gf, rf) = img[40, 40]        
     medB = medB / cont
     medV = medV / cont
     medVer = medVer / cont
@@ -77,13 +80,16 @@ def encontrar (indice,x,y):
     baixo = [0,0,0,0,0,0,0,0]
     vazio = 0
     bombas = indice     
-    print(indice, "a função foi iniciada")
+    print(indice, "a função foi iniciada", x)
     for i in range(0, len(position)):
         b = p.screenshot("redor.png", region=(position[i][0], position[i][1], quadX, quadY))
-        b.save(r'C:\Users\Aluno\Desktop\resolver-minas\imgachar\image{}.png'.format(i))
+        # b.save(r'C:\Users\Aluno\Desktop\resolver-minas\imgachar\image{}.png'.format(i)) #google
+        b.save(r'C:\Users\Felipe Basqueroto\OneDrive\Área de Trabalho\minas\resolver-minas\imgachar\image{}.png'.format(i)) #opera
         b = cv.imread("redor.png")
-        (bg, gg, rF) = b[10, 10]
+        (bg, gg, rF) = b[40, 40]
         (b,g,r, gF) = color("redor.png")
+        print(i)
+        print(b, g, r, rF)
         if rF > 210: #aqui está p problem
             print("fundo vermelho achado")
             vazio += 1
@@ -93,47 +99,21 @@ def encontrar (indice,x,y):
             vazio += 1
             bombas -= 1
             baixo[i] = 1
+        print(baixo)
+    if x >= 820: #varia
+        voltar = [3,4,5]
+        for i in voltar:
+            if baixo[i] != 2:
+                vazio += 1
+                baixo[i] = 2
+    if x <= 415:
+        voltar = [0,1,7]
+        for i in voltar:
+            if baixo[i] != 2:
+                vazio += 1
+                baixo[i] = 2            
 
-    if x + quadX + 10 >= fimX:
-        if baixo[3] != 2 or baixo[3] != 2:
-            vazio += 1
-        if baixo[4] != 2 or baixo[4] != 2:
-            vazio += 1
-        if baixo[5] != 2 or baixo[5] != 2:
-            vazio += 1            
-        baixo[3] = 2
-        baixo[4] = 2
-        baixo[5] = 2
-    if x - quadX + 10 <= fimX:
-        if baixo[0] != 2 or baixo[0] != 2:
-            vazio += 1
-        if baixo[1] != 2 or baixo[1] != 2:
-            vazio += 1
-        if baixo[7] != 2 or baixo[7] != 2:
-            vazio += 1 
-        baixo[0] = 2
-        baixo[1] = 2
-        baixo[7] = 2
-    if y + quadY + 10 >= fimY:
-        if baixo[5] != 2 or baixo[5] != 2:
-            vazio += 1
-        if baixo[6] != 2 or baixo[6] != 2:
-            vazio += 1
-        if baixo[7] != 2 or baixo[7] != 2:
-            vazio += 1 
-        baixo[5] = 2
-        baixo[6] = 2
-        baixo[7] = 2
-    if y - quadY + 10 <= fimY:
-        if baixo[1] != 2 or baixo[1] != 2:
-            vazio += 1
-        if baixo[2] != 2 or baixo[2] != 2:
-            vazio += 1
-        if baixo[3] != 2 or baixo[3] != 2:
-            vazio += 1 
-        baixo[1] = 2
-        baixo[2] = 2
-        baixo[3] = 2
+
                    
     print('estão vazioes esses espaços ',vazio)
     print('bombas restantes', bombas)
@@ -159,11 +139,13 @@ def percorrer ():
         for j in range (0, numColumns):
             image = p.screenshot("quad.png", region=(quadStartX, quadStartY, quadX, quadY))
             contador+=1
-            image.save(r'C:\Users\Aluno\Desktop\resolver-minas\img\image{}.png'.format(contador))
+            image.save(r'C:\Users\Felipe Basqueroto\OneDrive\Área de Trabalho\minas\resolver-minas\img\image{}.png'.format(contador))
             print(contador)
             t = compare()
-            # if (t != 6):
-            #     encontrar(t,quadStartX, quadStartY)  
+            if (t != 6):
+                p.moveTo(quadStartX,quadStartY)
+                encontrar(t,quadStartX, quadStartY)
+                p.alert("podemos continuar?")  
             quadStartX += quadX
         quadStartX = startX
         quadStartY += quadY 
@@ -177,7 +159,7 @@ p.moveTo(1,1)
 
 # abrir google
 p.press('winleft')
-p.write('google')
+p.write('opera')
 p.press('enter')
 
 time.sleep(2)
@@ -185,24 +167,24 @@ time.sleep(2)
 p.write('campo minado')
 p.press('enter')
 p.press('f11')
-p.moveTo(567,600) #chorme
-# p.moveTo(381,358) #opera
+# p.moveTo(567,600) #chorme
+p.moveTo(381,358) #opera
 time.sleep(2)
 p.click()
 
-p.moveTo(595,240) #google
-p.click()
-p.moveTo(595,265)
-p.click()
-p.moveTo(947,568)
-p.click()
+# p.moveTo(595,240) #google
+# p.click()
+# p.moveTo(595,265)
+# p.click()
+# p.moveTo(947,568)
+# p.click()
 
-# p.moveTo(437,298) #opera
-# p.click()
-# p.moveTo(432,331)
-# p.click()
-# p.moveTo(434,382)
-# p.click()
+p.moveTo(437,298) #opera
+p.click()
+p.moveTo(432,331)
+p.click()
+p.moveTo(434,382)
+p.click()
 
 time.sleep(1)
 foto()
