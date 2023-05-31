@@ -18,6 +18,12 @@ compY = 361
 fimX = 863 #opera
 fimY = 722
 
+winX = 495
+winY = 363
+
+wCompX = 288
+wCompY = 11
+
 # compX = 674 #google
 # compY = 540
 
@@ -75,6 +81,12 @@ def compare ():
         print("fundo verde")
         return 6  
 
+def win ():
+    print('ganhamos?')
+    image = p.screenshot("win.png", region=(winX, winY, wCompX, wCompY))
+    (b, g, r, gf) = color(image)
+
+
 def encontrar (indice,x,y):
     position = [[x - quadX, y], [x - quadX, y - quadY], [x, y - quadY], [x + quadX, y - quadY], [x + quadX, y], [x + quadX, y + quadY], [x, y + quadY], [x - quadX, y + quadY]]
     #verde = 0 bandeira = 1 aberto = 2
@@ -90,7 +102,7 @@ def encontrar (indice,x,y):
         (bg, gg, rF) = b[40, 40]
         (b,g,r, gF) = color("redor.png")
         print(i)
-        print(b, g, r, rF)
+        # print(b, g, r, rF)
         if rF > 210: #aqui está p problem
             print("fundo vermelho achado")
             vazio += 1
@@ -101,6 +113,7 @@ def encontrar (indice,x,y):
             bombas -= 1
             baixo[i] = 1
         print(baixo)
+        print(x, y)
     if x >= 820: #varia
         voltar = [3,4,5]
         for i in voltar:
@@ -114,7 +127,7 @@ def encontrar (indice,x,y):
                 vazio += 1
                 baixo[i] = 2
     if y <= 370:
-        voltar = [1,2,4]  
+        voltar = [1,2,3]  
         for i in voltar:
             if baixo[i] != 2:
                 vazio += 1
@@ -156,11 +169,11 @@ def percorrer ():
             print(contador)
             t = compare()
             if (t != 6):
-                p.moveTo(quadStartX,quadStartY)
+                # p.moveTo(quadStartX,quadStartY)
                 encontrar(t,quadStartX, quadStartY)
-                while True:
-                    if k.read_key() == "q":
-                        break
+                # while True:
+                #     if k.read_key() == "q":
+                #         break
             quadStartX += quadX
         quadStartX = startX
         quadStartY += quadY 
