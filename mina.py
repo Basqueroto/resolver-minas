@@ -36,24 +36,29 @@ quadY = 45
 quadStartX = 0
 quadStartY = 0
 
-def color (image):
+prox = True
+
+def color (image, li = 7, lf = 34, ci = 15, cf = 30, can = True): #quadrado padrão
     medB = 0
     medV = 0
     medVer = 0
     cont = 0
     img = cv.imread(image)
-    for i in range(7, 34): #lines
-        for j in range(15, 30): #colun
+    for i in range(li, lf): #lines
+        for j in range(ci, cf): #colun
             (b, g, r) = img[i, j]        
             medB += b
             medV += g
             medVer += r
             cont += 1
-    (bf, gf, rf) = img[40, 40]        
+    if can == True:        
+        (bf, gf, rf) = img[40, 40]  
+    else:
+        gf = 0          
     medB = medB / cont
     medV = medV / cont
     medVer = medVer / cont
-    # print(medB, medV, medVer)
+    print(medB, medV, medVer)
     return medB, medV, medVer, gf
 
 def foto():
@@ -82,9 +87,16 @@ def compare ():
         return 6  
 
 def win ():
-    print('ganhamos?')
-    image = p.screenshot("win.png", region=(winX, winY, wCompX, wCompY))
-    (b, g, r, gf) = color(image)
+    p.screenshot("win.png", region=(winX, winY, wCompX, wCompY))
+    (b, g, r, gf) = color('win.png', 0, 11, 0, 288, False)
+    if b > 230:
+        print ('vencemos')
+        prox = False
+        return True
+    else: 
+        return False
+
+    
 
 
 def encontrar (indice,x,y):
@@ -163,6 +175,8 @@ def percorrer ():
     contador = 0   
     for i in range (0, numRows):
         for j in range (0, numColumns):
+            if win() == True:
+                return 
             image = p.screenshot("quad.png", region=(quadStartX, quadStartY, quadX, quadY))
             contador+=1
             image.save(r'C:\Users\Felipe Basqueroto\OneDrive\Área de Trabalho\minas\resolver-minas\img\image{}.png'.format(contador))
@@ -176,56 +190,61 @@ def percorrer ():
                 #         break
             quadStartX += quadX
         quadStartX = startX
-        quadStartY += quadY 
+        quadStartY += quadY
 
-#----------------------ABRIR o jogo-------------------------------- 
 
-p.alert("O código vai começar. Não utilize nada do computador até o código finalizar!")
-p.PAUSE = 0.5
+#----------------------ABRIR o jogo--------------------------------      
+def abrir ():
+    p.alert("O código vai começar. Não utilize nada do computador até o código finalizar!")
+    p.PAUSE = 0.5
 
-p.moveTo(1,1)
+    p.moveTo(1,1)
 
-# abrir google
-p.press('winleft')
-p.write('opera')
-p.press('enter')
+    # abrir google
+    p.press('winleft')
+    p.write('opera')
+    p.press('enter')
 
-time.sleep(2)
-# abrir campo minado
-p.write('campo minado')
-p.press('enter')
-p.press('f11')
-# p.moveTo(567,600) #chorme
-p.moveTo(381,358) #opera
-time.sleep(2)
-p.click()
+    time.sleep(2)
+    # abrir campo minado
+    p.write('campo minado')
+    p.press('enter')
+    p.press('f11')
+    # p.moveTo(567,600) #chorme
+    p.moveTo(381,358) #opera
+    time.sleep(2)
+    p.click()
 
-# p.moveTo(595,240) #google
-# p.click()
-# p.moveTo(595,265)
-# p.click()
-# p.moveTo(947,568)
-# p.click()
+    # p.moveTo(595,240) #google
+    # p.click()
+    # p.moveTo(595,265)
+    # p.click()
+    # p.moveTo(947,568)
+    # p.click()
 
-p.moveTo(437,298) #opera
-p.click()
-p.moveTo(432,331)
-p.click()
-p.moveTo(434,382)
-p.click()
+    p.moveTo(437,298) #opera
+    p.click()
+    p.moveTo(432,331)
+    p.click()
+    p.moveTo(434,382)
+    p.click()
 
-time.sleep(1)
-foto()
-p.PAUSE = 0.2
+    time.sleep(1)
+    foto()
+    p.PAUSE = 0.2
 
-time.sleep(2)
-q = 0
-while True:
-    q = q + 1
-    percorrer()
-    if (q > 10):
-        break
-p.alert("o loop terminou")     
-# time.sleep(2)
-# percorrer()
-# p.alert("o loop terminou")  
+    time.sleep(2)
+    q = 0
+    while prox:
+        q = q + 1
+        percorrer()
+        if (q > 10):
+            break
+    p.alert("o loop terminou")     
+
+    # time.sleep(2)
+    # percorrer()
+    # p.alert("o loop terminou")               
+
+# abrir()
+color('img/4.png')
