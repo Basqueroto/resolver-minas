@@ -1,6 +1,7 @@
 import pyautogui as p
 import time
 import cv2 as cv
+import keyboard as k
 
 
 # startX = 623 #google 
@@ -111,7 +112,19 @@ def encontrar (indice,x,y):
         for i in voltar:
             if baixo[i] != 2:
                 vazio += 1
-                baixo[i] = 2            
+                baixo[i] = 2
+    if y <= 370:
+        voltar = [1,2,4]  
+        for i in voltar:
+            if baixo[i] != 2:
+                vazio += 1
+                baixo[i] = 2
+    if y >= 676:
+        voltar = [5,6,7]  
+        for i in voltar:
+            if baixo[i] != 2:
+                vazio += 1
+                baixo[i] = 2                                  
 
 
                    
@@ -145,7 +158,9 @@ def percorrer ():
             if (t != 6):
                 p.moveTo(quadStartX,quadStartY)
                 encontrar(t,quadStartX, quadStartY)
-                p.alert("podemos continuar?")  
+                while True:
+                    if k.read_key() == "q":
+                        break
             quadStartX += quadX
         quadStartX = startX
         quadStartY += quadY 
@@ -191,13 +206,13 @@ foto()
 p.PAUSE = 0.2
 
 time.sleep(2)
-# q = 0
-# while True:
-#     q = q + 1
-#     percorrer()
-#     if (q > 10):
-#         break
-# p.alert("o loop terminou")     
-time.sleep(2)
-percorrer()
-p.alert("o loop terminou")  
+q = 0
+while True:
+    q = q + 1
+    percorrer()
+    if (q > 10):
+        break
+p.alert("o loop terminou")     
+# time.sleep(2)
+# percorrer()
+# p.alert("o loop terminou")  
