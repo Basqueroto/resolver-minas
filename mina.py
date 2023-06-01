@@ -37,7 +37,14 @@ quadStartX = 0
 quadStartY = 0
 
 prox = True
-
+contador = 0  
+# opened = []
+# for i in range(numRows):
+#     pas = []
+#     for j in range(numColumns):
+#         pas.append(False)
+#     opened.append(True)
+# print(opened)    
 def color (image, li = 7, lf = 34, ci = 15, cf = 30, can = True): #quadrado padrão
     medB = 0
     medV = 0
@@ -64,12 +71,13 @@ def color (image, li = 7, lf = 34, ci = 15, cf = 30, can = True): #quadrado padr
 def foto():
     p.screenshot("boardInit.png", region=(startX, startY, compX, compY))
 
-def compare ():
-    (b,g,r,gf) = color("quad.png")
+def compare (img = 'quad.png'):
+    (b,g,r,gf) = color(img)
     print(gf)
     if g < 205 and gf < 205:
         if b > 140 and g > 170 and r > 210:
             print ("fundo vermelho")
+            # opened[contador] = True
             return 6
         elif  b < 160 and g > 150 and r < 200:
             print ("verde")
@@ -80,6 +88,12 @@ def compare ():
         elif b < 160 and g > 60 and r >= 200:
             print("red")
             return 3
+        elif b > 150 and g > 60 and r <= 200:
+            print("roxo")
+            return 4
+        elif b < 110 and g > 150 and r >= 210:
+            print("laranja")
+            return 5
         else:
             return 6
     else: 
@@ -100,6 +114,8 @@ def win ():
 
 
 def encontrar (indice,x,y):
+    if win() == True:
+        return 
     position = [[x - quadX, y], [x - quadX, y - quadY], [x, y - quadY], [x + quadX, y - quadY], [x + quadX, y], [x + quadX, y + quadY], [x, y + quadY], [x - quadX, y + quadY]]
     #verde = 0 bandeira = 1 aberto = 2
     baixo = [0,0,0,0,0,0,0,0]
@@ -162,17 +178,18 @@ def encontrar (indice,x,y):
             if baixo[i] == 0:
                 p.moveTo(position[i][0] + quadX / 2 ,position[i][1] + quadY / 2)
                 p.click()
+        # opened[contador] = True
     if 8 - vazio == bombas:
         print("----------------dentro do if das bombas----------------")
         for i in range(0, len(baixo)):
             if baixo[i] == 0:
                 p.moveTo(position[i][0] + quadX / 2,position[i][1] + quadY / 2)
-                p.rightClick()               
-
+                p.rightClick()                   
+        # opened[contador] = True
 def percorrer (): 
     quadStartX = startX
     quadStartY = startY
-    contador = 0   
+    contador = 0 
     for i in range (0, numRows):
         for j in range (0, numColumns):
             if win() == True:
@@ -185,9 +202,6 @@ def percorrer ():
             if (t != 6):
                 # p.moveTo(quadStartX,quadStartY)
                 encontrar(t,quadStartX, quadStartY)
-                # while True:
-                #     if k.read_key() == "q":
-                #         break
             quadStartX += quadX
         quadStartX = startX
         quadStartY += quadY
@@ -231,11 +245,10 @@ def abrir ():
 
     time.sleep(1)
     foto()
-    p.PAUSE = 0.2
+    p.PAUSE = 0
 
-    time.sleep(2)
     q = 0
-    while prox:
+    while prox == True:
         q = q + 1
         percorrer()
         if (q > 10):
@@ -246,5 +259,5 @@ def abrir ():
     # percorrer()
     # p.alert("o loop terminou")               
 
-# abrir()
-color('img/4.png')
+abrir()
+# color('img/5.png')
